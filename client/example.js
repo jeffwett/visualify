@@ -87,7 +87,7 @@ export default class Example extends Visualizer {
   paintFlowerOfLife( { ctx, height, width, now, beat, bar }) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0)'
       ctx.lineWidth = beat/10
-      flowerOfLife(ctx, width / 2, height / 2, 50 +0.50*(this.sync.volume * height / 40 + beat / 80), 3)
+      flowerOfLife(ctx, width / 2, height / 2, 30 +2*(this.sync.volume * height / 40 + beat / 80), 3)
   } 
   
   paintWaveyCircle( { ctx, height, width, now, beat, bar }) {

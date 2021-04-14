@@ -66,13 +66,118 @@ export function drawShape (ctx, vertices) {
   return ctx
 }
 
+export function heart(ctx, xOffset, yOffset, radius, start = 0, end = TWO_PI) {
+  const x = t => radius*(16*Math.sin(t)**3)
+  const y = t => -radius*(13*Math.cos(t) - 5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))
+  const { width } = ctx.canvas 
+  ctx.beginPath()
+  const tick = 1
+  for (var t = start + TWO_PI/2; t <= end + TWO_PI/2; t += TWO_PI/100) { 
+    if (t == start) {
+     ctx.moveTo(x(t)+xOffset, y(t) + yOffset)
+    } else {
+      ctx.lineTo(x(t) + xOffset, y(t)+ yOffset)
+    }
+  }
+}
+export function plusBackground(ctx, radius, amount) {
+  const { width, height } = ctx.canvas 
+  for (var i = 0; i <amount; i += 1 ) {
+    const x = Math.random()*width
+    const y = Math.random()*height
+    ctx.moveTo(x+radius,y)
+    ctx.lineTo(x-radius, y)
+    ctx.moveTo(x,y+radius)
+    ctx.lineTo(x, y-radius)
+    ctx.closePath()
+  }
+}
+
+export function flower(ctx, xOffset, yOffset, radius, start = 0, end = TWO_PI) {
+  const r = x => radius*2*(3*Math.sin(10*x))+x/2*Math.cos(10*radius*x)
+  const { width } = ctx.canvas 
+  ctx.beginPath()
+  const tick = 1
+  for (var t = start; t <= end; t += TWO_PI/1000) { 
+    const x = r(t)*Math.cos(t) + xOffset
+    const y = r(t)*Math.sin(t) + yOffset
+    if (x === -50) {
+     ctx.moveTo(x, y)
+    } else {
+      ctx.lineTo(x, y)
+    }
+  }
+}
+
+
+export function waveyCircle(ctx, xOffset, yOffset, radius, start = 0, end = TWO_PI) {
+  const r = x => radius*((Math.sin((x * 6))**2 + Math.sin(x)) + 10) 
+  const { width } = ctx.canvas 
+  ctx.beginPath()
+  const tick = 1
+  for (var t = start; t <= end; t += TWO_PI/1000) { 
+    const x = r(t)*Math.cos(t) + xOffset
+    const y = r(t)*Math.sin(t) + yOffset
+    if (x === -50) {
+     ctx.moveTo(x, y)
+    } else {
+      ctx.lineTo(x, y)
+    }
+  }
+}
+
+export function line(ctx, xOffset, yOffset, slope, frequency, tick = 5) {
+  const y = x => ((slope * x + xOffset) + yOffset)
+  const { width } = ctx.canvas 
+  ctx.beginPath()
+  for (var x = -50; x < width + 50; x += tick) {
+    if (x === -50) {
+      ctx.moveTo(x, y(x))
+    } else {
+      ctx.lineTo(x, y(x))
+    }
+  }
+}
+export function chaos(ctx, radius, amount) {
+  const { width, height } = ctx.canvas 
+  for (var i = 0; i <amount; i += 1 ) {
+    const x = Math.random()*width
+    const y = Math.random()*height
+    ctx.moveTo(x,y)
+    ctx.arc(x, y, radius, 0, TWO_PI/4)
+    ctx.closePath()
+  }
+}
+export function speckle(ctx, radius, amount) {
+  const { width, height } = ctx.canvas 
+  for (var i = 0; i <amount; i += 1 ) {
+    const x = Math.random()*width
+    const y = Math.random()*height
+    ctx.moveTo(x,y)
+    ctx.arc(x, y, radius, 0, TWO_PI)
+    ctx.closePath()
+  }
+}
+
+export function tan (ctx, xOffset, yOffset, amplitude, frequency, tick = 5) {
+  const y = x => (amplitude * Math.tan((x / frequency) + xOffset) + yOffset)
+  const { width } = ctx.canvas 
+  ctx.beginPath()
+  for (var x = -50; x < width + 50; x += tick) {
+    if (x === -50) {
+      ctx.moveTo(x, y(x))
+    } else {
+      ctx.lineTo(x, y(x))
+    }
+  }
+}
 export function sin (ctx, xOffset, yOffset, amplitude, frequency, tick = 5) {
   const y = x => (amplitude * Math.sin((x / frequency) + xOffset) + yOffset)
   const { width } = ctx.canvas 
   ctx.beginPath()
   for (var x = -50; x < width + 50; x += tick) {
     if (x === -50) {
-      ctx.moveTo(x, y(x))
+     ctx.moveTo(x, y(x))
     } else {
       ctx.lineTo(x, y(x))
     }

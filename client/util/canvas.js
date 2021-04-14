@@ -93,6 +93,20 @@ export function plusBackground(ctx, radius, amount) {
   }
 }
 
+export function flowerOfLife(ctx, xOffset, yOffset, radius, maxDepth=3, start = 0, end = TWO_PI, depth=0) {
+  if (depth > maxDepth)
+    return;
+  ctx.beginPath()
+  ctx.arc(xOffset, yOffset, radius, start, end)
+  ctx.stroke()
+  // For each point on the circle
+  for (var t = TWO_PI/12; t <= TWO_PI; t += TWO_PI/6) {
+    const cx = Math.cos(t)*radius + xOffset;
+    const cy = Math.sin(t)*radius + yOffset;
+    flowerOfLife(ctx, cx, cy, radius, maxDepth, start, end, depth + 1)
+  }
+}
+
 export function flower(ctx, xOffset, yOffset, radius, start = 0, end = TWO_PI) {
   const r = x => radius*2*(3*Math.sin(10*x))+x/2*Math.cos(10*radius*x)
   const { width } = ctx.canvas 
@@ -110,7 +124,16 @@ export function flower(ctx, xOffset, yOffset, radius, start = 0, end = TWO_PI) {
 }
 
 
-export function waveyCircle(ctx, xOffset, yOffset, radius, start = 0, end = TWO_PI) {
+function rotatePoint(x,y,cx,cy, rotation) {
+  var coords = { x: x, y: y}
+  return coords;
+  coords.x = Math.cos(rotation)*(x-cx) - Math.sin(rotation)*(y-cy) + cx
+  coords.y = Math.sin(rotation)*(y-cy) + Math.cos(rotation)*(x-cx) + cy
+  return coords;
+}
+
+
+export function waveyCircle(ctx, xOffset, yOffset, radius, rotation=0, start = 0, end = TWO_PI) {
   const r = x => radius*((Math.sin((x * 6))**2 + Math.sin(x)) + 10) 
   const { width } = ctx.canvas 
   ctx.beginPath()
@@ -118,10 +141,12 @@ export function waveyCircle(ctx, xOffset, yOffset, radius, start = 0, end = TWO_
   for (var t = start; t <= end; t += TWO_PI/1000) { 
     const x = r(t)*Math.cos(t) + xOffset
     const y = r(t)*Math.sin(t) + yOffset
+    
+    const _coords = rotatePoint(x,y, xOffset, yOffset, rotation) 
     if (x === -50) {
-     ctx.moveTo(x, y)
+     ctx.moveTo(_coords.x, _coords.y)
     } else {
-      ctx.lineTo(x, y)
+      ctx.lineTo(_coords.x, _coords.y)
     }
   }
 }

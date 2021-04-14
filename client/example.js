@@ -1,7 +1,7 @@
 import Visualizer from './classes/visualizer'
 import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
 import { getRandomElement } from './util/array'
-import { plusBackground, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
+import { plusBackground,flowerOfLife, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
 
 export default class Example extends Visualizer {
   constructor () {
@@ -12,7 +12,7 @@ export default class Example extends Visualizer {
         ]
     this.theme = getRandomElement(this.themes)
     this.shape = 'circle'
-    this.shapes = ['circle', 'heart', 'waveyCircle', 'flower', 'star', 'triangle', 'square']
+    this.shapes = ['circle', 'flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
   }
@@ -84,13 +84,24 @@ export default class Example extends Visualizer {
     ctx.lineWidth = beat
     flower(ctx, width / 2, height / 2, this.sync.volume * height / 40 + beat / 80)
   } 
+  paintFlowerOfLife( { ctx, height, width, now, beat, bar }) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0)'
+      ctx.lineWidth = beat/10
+      flowerOfLife(ctx, width / 2, height / 2, 50 +0.50*(this.sync.volume * height / 40 + beat / 80), 3)
+  } 
+  
   paintWaveyCircle( { ctx, height, width, now, beat, bar }) {
+    ctx.fillStyle = 'rgba(0, 0, 0, .12)'
+    ctx.fillRect(0, 0, width, height)
     ctx.stroke()
     ctx.fillStyle = 'rgba(0, 0, 0, 1)'
     ctx.beginPath()
     ctx.lineWidth = beat
-    waveyCircle(ctx, width / 2, height / 2, this.sync.volume * height / 40 + beat / 80)
-    waveyCircle(ctx, width / 2, height / 2, this.sync.volume * height / 75 + beat / 150)
+    //ctx.translate(width/2, height/2)
+    //ctx.rotate(Math.PI / 180)
+    //ctx.translate(-width/2, -height/2)
+    waveyCircle(ctx, width / 2, height / 2, this.sync.volume * height / 40 + beat / 80, now*5)
+    waveyCircle(ctx, width / 2, height / 2, this.sync.volume * height / 75 + beat / 150, now*5)
   } 
   paintCircle( { ctx, height, width, now, beat, bar }) {
     sin(ctx, now / 50, height / 2, this.sync.volume * 100, 100)
@@ -126,6 +137,8 @@ export default class Example extends Visualizer {
       this.paintHeart({ ctx, height, width, now, beat, bar})
     else if (this.shape == 'flower')
       this.paintFlower({ ctx, height, width, now, beat, bar})
+    else if (this.shape == 'flowerOfLife')
+      this.paintFlowerOfLife({ ctx, height, width, now, beat, bar})
     ctx.stroke()
     ctx.fill()
   }

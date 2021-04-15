@@ -15,6 +15,7 @@ export default class Example extends Visualizer {
     this.shapes = ['circle', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
+    this.ctx = null
   }
 
   nextColors() {
@@ -28,6 +29,7 @@ export default class Example extends Visualizer {
 
   hooks () {
     this.sync.on('bar', beat => {
+      console.log("next bar")
       this.nextColors()
     })
     this.sync.on('section', beat => {
@@ -45,7 +47,6 @@ export default class Example extends Visualizer {
   }
 
   paintPolygon( { ctx, height, width, now, beat, bar, sides }) {
-    console.log(this.sync)
     if (sides == 3)
       tan(ctx, now / 50, height / 2, this.sync.volume * 10, 0.1, 25 / this.sync.volume)
     else if (sides == 4)

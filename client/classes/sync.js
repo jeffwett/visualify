@@ -134,7 +134,7 @@ export default class Sync {
     const songsInSync = (JSON.stringify(data.item) === JSON.stringify(this.state.currentlyPlaying))
 
     if (this.state.initialized === false || !songsInSync || this.state.active === false) {
-      return this.getTrackInfo(data)
+      return setTimeout( () => this.getTrackInfo(data), 50)
     }
 
     this.ping()

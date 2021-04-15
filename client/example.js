@@ -1,6 +1,7 @@
 import Visualizer from './classes/visualizer'
 import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
 import { getRandomElement } from './util/array'
+import { formatTime } from './util/time'
 import { curvedRect, plusBackground,lightning, flowerOfLife, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
 
 export default class Example extends Visualizer {
@@ -159,11 +160,14 @@ export default class Example extends Visualizer {
     ctx.stroke()
     ctx.fill()
     ctx.fillStyle = 'rgba( 0, 0, 0, 0.5)'
+    ctx.strokeStyle = '#000'
     ctx.fillRect(0, height - 50, width, height)
     ctx.fillStyle = 'white'
     ctx.font = '20px Arial'
-    ctx.fillText(this.currentSong.name + " – " + this.currentSong.artists[0].name, 50, height -15, width - 100)
-
+    const elapsed_s = formatTime(this.sync.state.trackProgress) 
+    const duration_s = formatTime(this.sync.state.currentlyPlaying.duration_ms) 
+    ctx.fillText(this.currentSong.name + " – " + this.currentSong.artists[0].name, 50, height -18, width - 250) 
+    ctx.fillText(elapsed_s + " / " + duration_s, width - 150, height - 18, width / 2)
     ctx.fillStyle = '#ff8300'
     curvedRect(ctx, 0, height-55, width*this.sync.getProgress(), 5) 
     

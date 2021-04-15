@@ -12,7 +12,7 @@ export default class Example extends Visualizer {
         ]
     this.theme = getRandomElement(this.themes)
     this.shape = 'circle'
-    this.shapes = ['circle', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
+    this.shapes = ['circle', 'lightning']//,'flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
   }
@@ -110,7 +110,7 @@ export default class Example extends Visualizer {
     ctx.fillStyle = 'rgba(0, 0, 0, 1)'
     ctx.beginPath()
     ctx.lineWidth = beat/3
-    lightning(ctx, width/2,height/2, this.sync.volume * height / 10 + beat/20, this.sync.volume * height, beat) 
+    lightning(ctx, width/2,height/2, this.sync.volume * height / 10 + beat/20, this.sync.volume * height / 2, beat) 
   }
   paintCircle( { ctx, height, width, now, beat, bar }) {
     sin(ctx, now / 50, height / 2, this.sync.volume * 100, 100)

@@ -192,7 +192,7 @@ export function chaos(ctx, radius, amount) {
 }
 export function speckle(ctx, radius, amount) {
   const { width, height } = ctx.canvas 
-  for (var i = 0; i <amount; i += 1 ) {
+  for (var i = 0; i <Math.min(amount,50000); i += 1 ) {
     const x = Math.random()*width
     const y = Math.random()*height
     ctx.moveTo(x,y)

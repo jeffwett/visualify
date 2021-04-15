@@ -24,13 +24,18 @@ export default class Example extends Visualizer {
   }
 
   nextTheme() {
-    this.theme = getRandomElement(this.theme.filter(theme => theme !== this.theme))
+    this.theme = getRandomElement(this.themes.filter(theme => theme !== this.theme))
+    
   }
 
   hooks () {
     this.sync.on('bar', beat => {
       console.log("next bar")
       this.nextColors()
+    })
+    this.sync.watch('currentlyPlaying', cur => {
+      this.nextTheme()
+      this.currentSong = cur
     })
     this.sync.on('section', beat => {
       if (!this.lastSeenSegment || beat.duration != this.lastSeenSegment.duration) {
@@ -153,5 +158,10 @@ export default class Example extends Visualizer {
       this.paintLightning({ ctx, height, width, now, beat, bar})
     ctx.stroke()
     ctx.fill()
+    ctx.fillStyle = 'rgba( 0, 0, 0, 0.5)'
+    ctx.fillRect(0, height - 50, width, height)
+    ctx.fillStyle = 'white'
+    ctx.font = '20px Arial'
+    ctx.fillText(this.currentSong.name + " – " + this.currentSong.artists[0].name, 50, height -15, width - 100)
   }
 }

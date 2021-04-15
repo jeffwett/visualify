@@ -1,7 +1,7 @@
 import Visualizer from './classes/visualizer'
 import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
 import { getRandomElement } from './util/array'
-import { plusBackground,flowerOfLife, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
+import { plusBackground,lightning, flowerOfLife, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
 
 export default class Example extends Visualizer {
   constructor () {
@@ -12,7 +12,7 @@ export default class Example extends Visualizer {
         ]
     this.theme = getRandomElement(this.themes)
     this.shape = 'circle'
-    this.shapes = ['circle', 'flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
+    this.shapes = ['circle', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
   }
@@ -103,6 +103,15 @@ export default class Example extends Visualizer {
     waveyCircle(ctx, width / 2, height / 2, this.sync.volume * height / 40 + beat / 80, now*5)
     waveyCircle(ctx, width / 2, height / 2, this.sync.volume * height / 75 + beat / 150, now*5)
   } 
+  paintLightning( { ctx, height, width, now, beat, bar }) {
+    speckle(ctx, 3, 30*this.sync.volume)
+    
+    ctx.stroke()
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)'
+    ctx.beginPath()
+    ctx.lineWidth = beat/3
+    lightning(ctx, width/2,height/2, this.sync.volume * height / 10 + beat/20, this.sync.volume * height, beat) 
+  }
   paintCircle( { ctx, height, width, now, beat, bar }) {
     sin(ctx, now / 50, height / 2, this.sync.volume * 100, 100)
     ctx.stroke()
@@ -139,6 +148,8 @@ export default class Example extends Visualizer {
       this.paintFlower({ ctx, height, width, now, beat, bar})
     else if (this.shape == 'flowerOfLife')
       this.paintFlowerOfLife({ ctx, height, width, now, beat, bar})
+    else if (this.shape == 'lightning')
+      this.paintLightning({ ctx, height, width, now, beat, bar})
     ctx.stroke()
     ctx.fill()
   }

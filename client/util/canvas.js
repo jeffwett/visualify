@@ -93,6 +93,23 @@ export function plusBackground(ctx, radius, amount) {
   }
 }
 
+export function lightning(ctx, xOffset, yOffset, radius, energy, beat) { 
+  //ctx.beginPath()
+  ctx.arc(xOffset, yOffset, radius, 0, TWO_PI)
+  ctx.lineWidth = beat/10
+  //ctx.stroke()
+  // For each point on the circle
+  for (var t = 0; t <= TWO_PI; t += TWO_PI/beat) {
+    const cx = Math.cos(t)*radius + xOffset;
+    const cy = Math.sin(t)*radius + yOffset;
+    const nx = Math.cos(t)*(radius + energy) + xOffset;
+    const ny = Math.sin(t)*(radius + energy)+ yOffset;
+    ctx.moveTo(cx, cy) 
+    ctx.lineTo(nx, ny) 
+    ctx.closePath()
+  }
+}
+
 export function flowerOfLife(ctx, xOffset, yOffset, radius, maxDepth=3, start = 0, end = TWO_PI, depth=0) {
   if (depth > maxDepth)
     return;

@@ -32,6 +32,20 @@ export function polygon (sides, radius, cx = 0, cy = 0, rotation = 0) {
   return vertices
 }
 
+export function curvedRect(ctx, x,y, width, height) {
+  ctx.beginPath()
+  const radius = height/2
+  ctx.moveTo(x+radius,y)
+  ctx.lineTo(x+width-2*radius, y)
+  ctx.arc(x+width-radius, y+radius, radius, TWO_PI/4 +TWO_PI/2, TWO_PI/4) 
+  ctx.moveTo(x+width-radius,y+height)
+  ctx.lineTo(x+radius,y+height) 
+  ctx.arc(x+radius, y+radius, radius, TWO_PI/4, TWO_PI/4 +TWO_PI/2)
+  ctx.fill()
+  ctx.closePath()
+  return ctx
+}
+
 export function star (points, innerRadius, outerRadius, cx = 0, cy = 0, rotation = 0, round = false) {
   const outer = polygon(points, outerRadius, cx, cy, rotation)
   const inner = polygon(points, innerRadius, cx, cy, (360 / points / 2) + rotation)

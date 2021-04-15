@@ -1,7 +1,7 @@
 import Visualizer from './classes/visualizer'
 import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
 import { getRandomElement } from './util/array'
-import { plusBackground,lightning, flowerOfLife, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
+import { curvedRect, plusBackground,lightning, flowerOfLife, flower, tan, waveyCircle, drawShape, chaos, heart, sin, circle, star, line, polygon, speckle } from './util/canvas'
 
 export default class Example extends Visualizer {
   constructor () {
@@ -127,7 +127,7 @@ export default class Example extends Visualizer {
     circle(ctx, width / 2, height / 2, this.sync.volume * height / 5 + beat / 10)
   }
 
-  paint ({ ctx, height, width, now }) {
+  paint ({ ctx, progress, height, width, now }) {
     const bar = interpolateBasis([0, this.sync.volume * 10, 0])(this.sync.bar.progress)
     const beat = interpolateBasis([0, this.sync.volume * 300, 0])(this.sync.beat.progress)
     var sides = 3
@@ -163,5 +163,9 @@ export default class Example extends Visualizer {
     ctx.fillStyle = 'white'
     ctx.font = '20px Arial'
     ctx.fillText(this.currentSong.name + " – " + this.currentSong.artists[0].name, 50, height -15, width - 100)
+
+    ctx.fillStyle = '#ff8300'
+    curvedRect(ctx, 0, height-55, width*this.sync.getProgress(), 5) 
+    
   }
 }

@@ -140,6 +140,11 @@ export default class Sync {
     this.ping()
   }
   
+  
+  getProgress() {
+    return this.state.trackProgress / this.state.currentlyPlaying.duration_ms
+  }
+  
   /**
    * @method getTrackInfo - Fetch track analysis and track features of currently playing track.
    * @param {object} data - Response from Spotify API. 
@@ -166,7 +171,6 @@ export default class Sync {
     })
 
     const tock = window.performance.now() - tick
-
     this.state.currentlyPlaying = data.item
     this.state.trackAnalysis = analysis
     this.state.trackFeatures = features

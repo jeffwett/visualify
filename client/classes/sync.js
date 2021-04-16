@@ -308,6 +308,9 @@ export default class Sync {
    * @param {DOMHighResTimeStamp} now 
    */
   tick (now) {
+    if (this.state.trackProgress + 5000 > this.state.currentlyPlaying.duration_ms) {
+      this.state.active = false
+    }
     requestAnimationFrame(this.tick.bind(this))
     if (!this.state.active) return
 

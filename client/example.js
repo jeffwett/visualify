@@ -52,6 +52,7 @@ export default class Example extends Visualizer {
       this.currentSong = cur
       this.shape = 'album'
       this.loadAlbumArt()
+      setTimeout( () => { this.nextShape() }, 10000) 
     })
     this.sync.on('section', beat => {
       if (this.sync.state.trackProgress < 10000)

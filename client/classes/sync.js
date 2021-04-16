@@ -151,7 +151,7 @@ export default class Sync {
    */
   async getTrackInfo (data) {
     const tick = window.performance.now()
-    if (!data.item.id) {
+    if (!data.item || !data.item.id) {
       return
     }
     const [ analysis, features ] = await Promise.all([

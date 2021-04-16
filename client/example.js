@@ -54,7 +54,6 @@ export default class Example extends Visualizer {
       this.currentSong = cur
       this.shape = 'album'
       this.loadAlbumArt()
-      setTimeout( () => { this.nextShape() }, 10000) 
     })
     this.sync.on('section', beat => {
       if (this.sync.state.trackProgress < 10000)
@@ -99,10 +98,9 @@ export default class Example extends Visualizer {
     ctx.stroke()
     ctx.fillRect(0, 0, width, height)
     const bounce = 0.3*(this.sync.volume * height / 7 + beat/1.7)
-    ctx.lineWidth = (beat/2 + this.sync.volume*height/40)
+    ctx.lineWidth = 1.5*(beat/2 + this.sync.volume*height/40)
     var cx = width/2 - this.albumArt.width/2
     var cy = height/2 - this.albumArt.height/2 + height/10
-    this.albumArt.style = "borderRadius: 50px"
     ctx.strokeRect(cx,cy - bounce - 14, this.albumArt.width, this.albumArt.height + 28)
     ctx.drawImage(this.albumArt, cx, cy-bounce, this.albumArt.width, this.albumArt.height)
     ctx.lineWidth = 5
@@ -128,7 +126,7 @@ export default class Example extends Visualizer {
       ctx.fillRect(0, 0, width, height)
       ctx.fillStyle = 'rgba(0, 0, 0, 0)'
       ctx.lineWidth = beat/10
-      flowerOfLife(ctx, width / 2, height / 2, 60 +2.2*(this.sync.volume * height / 40 + beat / 80), 4, now/1000)
+      flowerOfLife(ctx, width / 2, height / 2, 60 +2.2*(this.sync.volume * height / 40 + beat / 80), 3, now/1000)
   } 
   
   paintWaveyCircle( { ctx, height, width, now, beat, bar }) {

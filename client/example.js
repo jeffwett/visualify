@@ -13,7 +13,7 @@ export default class Example extends Visualizer {
         ]
     this.theme = getRandomElement(this.themes)
     this.shape = 'circle'
-    this.shapes = ['circle', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
+    this.shapes = ['circle', 'album', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
     this.ctx = null
@@ -28,6 +28,19 @@ export default class Example extends Visualizer {
     this.theme = getRandomElement(this.themes.filter(theme => theme !== this.theme))
     
   }
+  
+  loadAlbumArt(){ 
+    this.albumArt = null
+    const images = this.currentSong.album.images
+    if (images.length == 0)
+      return
+    const url = images[0].url
+    var img = new Image
+    img.onload = () => {
+      this.albumArt = img 
+    }
+    img.src = url
+  }
 
   hooks () {
     this.sync.on('bar', beat => {
@@ -37,12 +50,14 @@ export default class Example extends Visualizer {
     this.sync.watch('currentlyPlaying', cur => {
       this.nextTheme()
       this.currentSong = cur
+      this.shape = 'album'
+      this.loadAlbumArt()
     })
     this.sync.on('section', beat => {
+      if (this.sync.state.trackProgress < 10000)
+        return
       if (!this.lastSeenSegment || beat.duration != this.lastSeenSegment.duration) {
         this.lastSeenSegment = beat
-        console.log(beat)
-        console.log("next section")
         this.nextShape()
       }
     })
@@ -75,7 +90,21 @@ export default class Example extends Visualizer {
     ctx.lineWidth = beat 
     drawShape(ctx, star(5, this.sync.volume * height / 14,  this.sync.volume * height / 7 + beat / 10, width/2,height/2, now/20, true).vertices) 
   }
- 
+
+  paintAlbum( { ctx, height, width, now ,beat, bar }) {
+    ctx.fillStyle = 'rgba(0, 0, 0, .20)'
+    ctx.stroke()
+    ctx.fillRect(0, 0, width, height)
+    const bounce = 0.3*(this.sync.volume * height / 7 + beat/1.7)
+    ctx.lineWidth = (beat/2 + this.sync.volume*height/40)
+    var cx = width/2 - this.albumArt.width/2
+    var cy = height/2 - this.albumArt.height/2 + height/10
+    this.albumArt.style = "borderRadius: 50px"
+    ctx.strokeRect(cx,cy - bounce - 14, this.albumArt.width, this.albumArt.height + 28)
+    ctx.drawImage(this.albumArt, cx, cy-bounce, this.albumArt.width, this.albumArt.height)
+    ctx.lineWidth = 5
+  }
+
   paintHeart( { ctx, height, width, now, beat, bar }) {
     ctx.stroke()
     ctx.fillStyle = 'rgba(0, 0, 0, 1)'
@@ -157,6 +186,9 @@ export default class Example extends Visualizer {
       this.paintFlowerOfLife({ ctx, height, width, now, beat, bar})
     else if (this.shape == 'lightning')
       this.paintLightning({ ctx, height, width, now, beat, bar})
+    else if (this.shape == 'album')
+      this.paintAlbum({ ctx, height, width, now, beat, bar})
+
     ctx.stroke()
     ctx.fill()
     ctx.fillStyle = 'rgba( 0, 0, 0, 0.5)'
@@ -170,6 +202,7 @@ export default class Example extends Visualizer {
     ctx.fillText(elapsed_s + " / " + duration_s, width - 150, height - 18, width / 2)
     ctx.fillStyle = '#ff8300'
     curvedRect(ctx, 0, height-55, width*this.sync.getProgress(), 5) 
-    
+   
+
   }
 }

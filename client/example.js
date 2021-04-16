@@ -13,7 +13,7 @@ export default class Example extends Visualizer {
         ]
     this.theme = getRandomElement(this.themes)
     this.shape = 'circle'
-    this.shapes = ['circle', 'album', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
+    this.shapes = ['circle', 'lightning','flowerOfLife', 'waveyCircle', 'heart', 'flower', 'star', 'triangle', 'square']
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
     this.ctx = null

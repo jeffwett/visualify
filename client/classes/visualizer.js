@@ -14,7 +14,7 @@ export default class Visualizer {
 
     this.watch()
     this.hooks()
-    document.body.append("Play a song and let the magic begin.") 
+    document.body.append("Open spotify, play a song and return for the show.") 
   }
 
   /**

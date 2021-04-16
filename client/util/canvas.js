@@ -133,7 +133,7 @@ export function flowerOfLife(ctx, xOffset, yOffset, radius, maxDepth=3, start = 
   ctx.arc(xOffset, yOffset, radius, 0, end)
   ctx.stroke()
   // For each point on the circle
-  for (var t = TWO_PI/12+start; t <= TWO_PI+start; t += TWO_PI/6) {
+  for (var t = TWO_PI/12+start*depth; t <= TWO_PI+start; t += TWO_PI/6) {
     const cx = Math.cos(t)*radius + xOffset;
     const cy = Math.sin(t)*radius + yOffset;
     flowerOfLife(ctx, cx, cy, radius, maxDepth, start, end, depth + 1)

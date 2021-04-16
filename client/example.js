@@ -37,6 +37,8 @@ export default class Example extends Visualizer {
     const url = images[0].url
     var img = new Image
     img.onload = () => {
+      img.width = img.width/2
+      img.height = img.height/2
       this.albumArt = img 
     }
     img.src = url

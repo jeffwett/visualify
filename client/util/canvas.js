@@ -114,6 +114,7 @@ export function lightning(ctx, xOffset, yOffset, radius, energy, beat) {
   ctx.lineWidth = beat/10
   //ctx.stroke()
   // For each point on the circle
+  radius /= 1.5 
   for (var t = 0; t <= TWO_PI; t += Math.max(0.01, TWO_PI/beat*4)) {
     const cx = Math.cos(t)*radius + xOffset;
     const cy = Math.sin(t)*radius + yOffset;
@@ -129,10 +130,10 @@ export function flowerOfLife(ctx, xOffset, yOffset, radius, maxDepth=3, start = 
   if (depth > maxDepth)
     return;
   ctx.beginPath()
-  ctx.arc(xOffset, yOffset, radius, start, end)
+  ctx.arc(xOffset, yOffset, radius, 0, end)
   ctx.stroke()
   // For each point on the circle
-  for (var t = TWO_PI/12; t <= TWO_PI; t += TWO_PI/6) {
+  for (var t = TWO_PI/12+start; t <= TWO_PI+start; t += TWO_PI/6) {
     const cx = Math.cos(t)*radius + xOffset;
     const cy = Math.sin(t)*radius + yOffset;
     flowerOfLife(ctx, cx, cy, radius, maxDepth, start, end, depth + 1)

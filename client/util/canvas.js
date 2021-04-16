@@ -114,7 +114,7 @@ export function lightning(ctx, xOffset, yOffset, radius, energy, beat) {
   ctx.lineWidth = beat/10
   //ctx.stroke()
   // For each point on the circle
-  for (var t = 0; t <= TWO_PI; t += Math.min(0.001, TWO_PI/beat*4)) {
+  for (var t = 0; t <= TWO_PI; t += Math.max(0.001, TWO_PI/beat*4)) {
     const cx = Math.cos(t)*radius + xOffset;
     const cy = Math.sin(t)*radius + yOffset;
     const nx = Math.cos(t)*(radius + energy) + xOffset;

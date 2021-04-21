@@ -52,7 +52,7 @@ export default class Example extends Visualizer {
     this.sync.watch('currentlyPlaying', cur => {
       this.nextTheme()
       this.currentSong = cur
-      this.shape = 'album'
+      this.nextShape()
       this.loadAlbumArt()
     })
     this.sync.on('section', beat => {

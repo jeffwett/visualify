@@ -17,6 +17,11 @@ export default class Example extends Visualizer {
     this.lastShapeTime = 0
     this.lastSeenSegment = null 
     this.ctx = null
+  
+    document.getElementsByTagName("canvas")[0].addEventListener("click", () => {
+      this.nextShape()
+    })
+
   }
 
   nextColors() {
@@ -126,7 +131,7 @@ export default class Example extends Visualizer {
       ctx.fillRect(0, 0, width, height)
       ctx.fillStyle = 'rgba(0, 0, 0, 0)'
       ctx.lineWidth = beat/10
-      flowerOfLife(ctx, width / 2, height / 2, 60 +2.2*(this.sync.volume * height / 40 + beat / 80), 3, now/1000)
+      flowerOfLife(ctx, width / 2, height / 2, 60 +2.2*(this.sync.volume * height / 40 + beat / 80), 2, now/1000)
   } 
   
   paintWaveyCircle( { ctx, height, width, now, beat, bar }) {
